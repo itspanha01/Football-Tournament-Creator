@@ -10,6 +10,10 @@ public class Bracket {
         System.out.print("Enter 2nd team name: ");
         String team2 = scan.nextLine();
 
-        System.out.printf("Match today: %s vs %s", team1, team2);
+        Teams team = new Teams("F.C Barcelona");
+
     }
+
+
+
 }
