@@ -7,8 +7,8 @@ public class Display {
     public static String[] TeamNames = new String[0];
     static int MAX_WIDTH = 32;
 
-    // Sample 16-team list for quickly testing the bracket without manual entry
-    // (colored so the bracket's color support is visible right away)
+    // Sample 16-team list for quick testing
+
     public static final String[] SampleTeams16 = {
         getColor("ARG", "BLUE"),   getColor("BRA", "YELLOW"),
         getColor("ESP", "RED"),    getColor("POR", "GREEN"),
@@ -26,6 +26,29 @@ public class Display {
         System.out.println();
         System.out.printf("+ Loaded %d sample teams for testing.%n", TeamNames.length);
         System.out.println();
+    }
+
+    // Clears the current team list after confirmation
+    public static void DeleteTeams() {
+        scan.nextLine(); // consume the leftovers from the menu input
+
+        if (TeamNames.length == 0) {
+            System.out.println("Empty list. No teams to delete.");
+            return;
+        }
+
+        DisplayTeams();
+        System.out.print("Are you sure you want to delete all teams? (Y/N): ");
+        String confirm = scan.nextLine().strip().toUpperCase();
+
+        if (confirm.equals("Y")) {
+            TeamNames = new String[0];
+            System.out.println();
+            System.out.println("+ All teams have been deleted.");
+            System.out.println();
+        } else {
+            System.out.println("Cancelled.");
+        }
     }
 
     public static void bracket_all() {
@@ -60,13 +83,17 @@ public class Display {
         return text.replaceAll("\\[[;\\d]*m", "");
     }
 
-
+    // Greys out and dims an eliminated team label, replacing whatever color it already had.
+    public static String strikethrough(String text) {
+        String plain = stripColor(text);
+        return "[2m[90m" + plain + "[0m";
+    }
 
     // Renders the bracket tree with known winners filled in at each connector,
-    // and "■" wherever a match hasn't been decided yet.
+    // and "■" wherever a match hasn't been decided yet. Eliminated leaf teams are struck through.
     // rounds.get(0) = original leaves (n teams); rounds.get(r) = winners of round r.
-    private static void printResultBracket(java.util.List<String[]> rounds, int n, int consoleWidth) {
-        BracketBlock root = buildResultBracket(0, n, rounds);
+    private static void printResultBracket(java.util.List<String[]> rounds, int n, int consoleWidth, java.util.Set<String> eliminated) {
+        BracketBlock root = buildResultBracket(0, n, rounds, eliminated);
         int margin = Math.max(0, (consoleWidth - root.width) / 2);
         String pad = " ".repeat(margin);
         for (String line : root.lines) {
@@ -74,10 +101,13 @@ public class Display {
         }
     }
 
-    private static BracketBlock buildResultBracket(int lo, int hi, java.util.List<String[]> rounds) {
+    private static BracketBlock buildResultBracket(int lo, int hi, java.util.List<String[]> rounds, java.util.Set<String> eliminated) {
         int size = hi - lo;
         if (size == 1) {
             String label = rounds.get(0)[lo];
+            if (eliminated.contains(label)) {
+                label = strikethrough(label);
+            }
             int visibleWidth = stripColor(label).length();
             BracketBlock leaf = new BracketBlock();
             leaf.lines = new String[] { label };
@@ -87,8 +117,8 @@ public class Display {
         }
 
         int mid = lo + size / 2;
-        BracketBlock left = buildResultBracket(lo, mid, rounds);
-        BracketBlock right = buildResultBracket(mid, hi, rounds);
+        BracketBlock left = buildResultBracket(lo, mid, rounds, eliminated);
+        BracketBlock right = buildResultBracket(mid, hi, rounds, eliminated);
 
         int gap = 4;
         int leftCenter = left.center;
@@ -112,6 +142,9 @@ public class Display {
             String[] roundResults = rounds.get(round);
             if (matchIndex < roundResults.length && roundResults[matchIndex] != null) {
                 resultText = roundResults[matchIndex];
+                if (eliminated.contains(resultText)) {
+                    resultText = strikethrough(resultText);
+                }
             }
         }
 
@@ -217,25 +250,27 @@ public class Display {
         // Center the menu box
         String boxPad = " ".repeat(Math.max(0, (consoleWidth - MAX_WIDTH) / 2));
         System.out.println(boxPad + "┌" + "─".repeat(MAX_WIDTH-2) + "┐");
-        System.out.println(boxPad + "│" + left(" 1. Create teams", MAX_WIDTH-2) + "│");
-        System.out.println(boxPad + "│" + left(" 2. Edit teams", MAX_WIDTH-2) + "│");
-        System.out.println(boxPad + "│" + left(" 3. Show teams", MAX_WIDTH-2) + "│");
-        System.out.println(boxPad + "│" + left(" 4. Show menu", MAX_WIDTH-2) + "│");
-        System.out.println(boxPad + "│" + left(" 5. Play bracket", MAX_WIDTH-2) + "│");
-        System.out.println(boxPad + "│" + left(" 6. Exit", MAX_WIDTH-2) + "│");
+        System.out.println(boxPad + "│" + left(" 1. Play bracket", MAX_WIDTH-2) + "│");
+        System.out.println(boxPad + "│" + left(" 2. Create teams", MAX_WIDTH-2) + "│");
+        System.out.println(boxPad + "│" + left(" 3. Edit teams", MAX_WIDTH-2) + "│");
+        System.out.println(boxPad + "│" + left(" 4. Show teams", MAX_WIDTH-2) + "│");
+        System.out.println(boxPad + "│" + left(" 5. Show menu", MAX_WIDTH-2) + "│");
+        System.out.println(boxPad + "│" + left(" 6. Delete teams", MAX_WIDTH-2) + "│");
+        System.out.println(boxPad + "│" + left(" 7. Exit", MAX_WIDTH-2) + "│");
         System.out.println(boxPad + "└" + "─".repeat(MAX_WIDTH-2) + "┘");
 
         do {
-            System.out.print("Choose operation (4 for menu): ");
+            System.out.print("Choose operation (5 for menu): ");
             choice = scan.nextInt();
             switch (choice) {
-                case 1 : clearScreen(); CreateTeams(); break;
-                case 2 : clearScreen(); EditTeams(); break;
-                case 3 : DisplayTeams(); break;
-                case 4 : clearScreen(); menu();
-                case 5 : clearScreen(); PlayBracket(); break;
+                case 1 : PlayBracket(); break;
+                case 2 : CreateTeams(); break;
+                case 3 : EditTeams(); break;
+                case 4 : DisplayTeams(); break;
+                case 5 : menu();
+                case 6 : DeleteTeams(); break;
             }
-        } while (choice != 6);
+        } while (choice != 7);
     }
 
     // Lets the user pick the winner of every match, round by round, redrawing
@@ -246,9 +281,10 @@ public class Display {
 
         int n = TeamNames.length;
         if (n < 2 || (n & (n - 1)) != 0) {
-            System.out.println("Invalid number of teams. Bracket requires a power of 2 (2, 4, 8, 16...).");
             return;
         }
+
+        clearScreen();
 
         int consoleWidth = getConsoleWidth();
 
@@ -257,6 +293,7 @@ public class Display {
         for (int round = 2; round <= n; round *= 2) {
             stages.add(0, roundName(round));
         }
+        System.out.println();
         System.out.println(center(String.join("   >   ", stages), consoleWidth));
         System.out.println();
 
@@ -265,11 +302,14 @@ public class Display {
         java.util.List<String[]> rounds = new java.util.ArrayList<>();
         rounds.add(leaves);
 
+        java.util.Set<String> eliminated = new java.util.HashSet<>();
+
         System.out.println("Bracket:");
-        printResultBracket(rounds, n, consoleWidth);
+        printResultBracket(rounds, n, consoleWidth, eliminated);
         System.out.println();
 
         String[] current = leaves;
+        String runnerUp = null;
         while (current.length > 1) {
             System.out.println(center(roundName(current.length), consoleWidth));
             System.out.println();
@@ -299,6 +339,11 @@ public class Display {
                 } while (pick != 1 && pick != 2);
 
                 next[i / 2] = (pick == 1) ? a : b;
+                String loser = (pick == 1) ? b : a;
+                eliminated.add(loser);
+                if (current.length == 2) {
+                    runnerUp = loser;
+                }
                 System.out.println();
                 String advanceMsg = next[i / 2] + " advances!";
                 int advancePad = Math.max(0, (consoleWidth - stripColor(advanceMsg).length()) / 2);
@@ -310,34 +355,109 @@ public class Display {
             current = next;
 
             System.out.println("Bracket:");
-            printResultBracket(rounds, n, consoleWidth);
+            printResultBracket(rounds, n, consoleWidth, eliminated);
             System.out.println();
         }
 
-        printChampionBox(current[0], consoleWidth);
+        printChampionBox(current[0], runnerUp, n, consoleWidth);
+        System.out.println();
     }
 
-    // Draws a large, centered banner announcing the tournament champion
-    private static void printChampionBox(String champion, int consoleWidth) {
+    // ASCII trophy art shown above the champion banner
+    public static final String TrophyArt = """
+    \s
+    \s
+    \s
+    \s
+    \s
+    \s
+    \s
+                         +;X&&&&x;X           \s
+                       +::;+xXX+;+++          \s
+                      X;:x&&+:;;$&$;X         \s
+                     ;x .;x+..;:;x+;+X        \s
+                     X;    +;     : :X        \s
+                     XX.    ;     ;;.+        \s
+                     :;;:    ;;xX;;.;         \s
+                      ;;;;:  ; ;;;X :         \s
+                       ;;;.  :+;++:;;         \s
+                       :.;;: ;..:;;:          \s
+                       ;;;;;;    :;:          \s
+                        x$+;+    :;           \s
+                         X.;x.:.;:;           \s
+                         x:+;:. ;;            \s
+                          +;; ;;.             \s
+                          ;;.;;;x             \s
+                          :::;;;;             \s
+                         +;++;x+xX            \s
+                        :;.;+.:+: ;           \s
+                        x .+;..+x ++          \s
+                       ;  ;x;.:+x; +:         \s
+                      ;..     . :.  ;;        \s
+    \s
+    \s
+    \s
+    \s
+            """;
+
+    // Centers a line (which may carry ANSI color codes) using its visible length
+    private static String centerVisible(String word, int width) {
+        int visible = stripColor(word).length();
+        int leftPad = Math.max(0, (width - visible) / 2);
+        int rightPad = Math.max(0, width - leftPad - visible);
+        return " ".repeat(leftPad) + word + " ".repeat(rightPad);
+    }
+
+    // Draws a large banner announcing the tournament champion, with the trophy art beside it
+    private static void printChampionBox(String champion, String runnerUp, int teamCount, int consoleWidth) {
+        // Trim blank rows from the trophy art so it sits snugly next to the box
+        String[] rawTrophyLines = TrophyArt.split("\n", -1);
+        int first = 0, last = rawTrophyLines.length - 1;
+        while (first < last && rawTrophyLines[first].isBlank()) first++;
+        while (last > first && rawTrophyLines[last].isBlank()) last--;
+        String[] trophyLines = java.util.Arrays.copyOfRange(rawTrophyLines, first, last + 1);
+        int trophyWidth = 0;
+        for (String l : trophyLines) trophyWidth = Math.max(trophyWidth, l.length());
+
         String title = " * CHAMPION * ";
         String champLine = "***  " + champion + "  ***";
-        int visible = stripColor(champLine).length();
-        int inner = Math.max(60, visible + 8);
-        String pad = " ".repeat(Math.max(0, (consoleWidth - (inner + 2)) / 2));
+        String runnerUpLine = (runnerUp != null) ? "Runner-up: " + runnerUp : "";
+        int rounds = 31 - Integer.numberOfLeadingZeros(teamCount);
+        String statsLine = teamCount + " teams  -  " + rounds + " rounds played";
 
-        int leftPad = Math.max(0, (inner - visible) / 2);
-        int rightPad = Math.max(0, inner - leftPad - visible);
-        String centeredChamp = " ".repeat(leftPad) + champLine + " ".repeat(rightPad);
+        int inner = Math.max(60, Math.max(stripColor(champLine).length(),
+                Math.max(stripColor(runnerUpLine).length(), statsLine.length())) + 8);
+
+        String[] boxLines = {
+            "╔" + center(title, "═", inner) + "╗",
+            "║" + " ".repeat(inner) + "║",
+            "║" + centerVisible(champLine, inner) + "║",
+            "║" + " ".repeat(inner) + "║",
+            "║" + centerVisible(runnerUpLine, inner) + "║",
+            "║" + center(statsLine, inner) + "║",
+            "║" + " ".repeat(inner) + "║",
+            "╚" + "═".repeat(inner) + "╝",
+        };
+        int boxWidth = inner + 2;
+
+        int gap = 2;
+        int height = Math.max(trophyLines.length, boxLines.length);
+        int trophyTopPad = (height - trophyLines.length) / 2;
+        int boxTopPad = (height - boxLines.length) / 2;
+
+        int totalWidth = trophyWidth + gap + boxWidth;
+        String pad = " ".repeat(Math.max(0, (consoleWidth - totalWidth) / 2));
 
         System.out.println();
-        System.out.println(pad + "╔" + center(title, "═", inner) + "╗");
-        System.out.println(pad + "║" + " ".repeat(inner) + "║");
-        System.out.println(pad + "║" + " ".repeat(inner) + "║");
-        System.out.println(pad + "║" + centeredChamp + "║");
-        System.out.println(pad + "║" + " ".repeat(inner) + "║");
-        System.out.println(pad + "║" + " ".repeat(inner) + "║");
-        System.out.println(pad + "╚" + "═".repeat(inner) + "╝");
-        System.out.println();
+        for (int i = 0; i < height; i++) {
+            String trophyLine = (i >= trophyTopPad && i < trophyTopPad + trophyLines.length)
+                ? trophyLines[i - trophyTopPad] : "";
+            String boxLine = (i >= boxTopPad && i < boxTopPad + boxLines.length)
+                ? boxLines[i - boxTopPad] : "";
+
+            String trophyCell = trophyLine + " ".repeat(Math.max(0, trophyWidth - trophyLine.length()));
+            System.out.println(pad + trophyCell + " ".repeat(gap) + boxLine);
+        }
     }
 
     // Draws a centered box around a single match's two options, sized to fit the team labels
@@ -442,6 +562,17 @@ public class Display {
     public static void CreateTeams() {
         scan.nextLine(); // consume the leftovers from the menu input
         boolean ErrorCheck;
+
+        // Warn before overwriting an existing team list
+        if (TeamNames.length > 0) {
+            System.out.print("A team list already exists. Overwrite it? (Y/N): ");
+            String confirm = scan.nextLine().strip().toUpperCase();
+
+            if (!confirm.equals("Y")) {
+                System.out.println("Cancelled.");
+                return;
+            }
+        }
 
         // Let the user skip manual entry and load the sample teams instead
         int mode;
