@@ -1,11 +1,11 @@
+import java.util.Scanner;
+
 public class Teams {
-    private String name;
+    static String name;
+    String ABRV;
 
-    public Teams(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
+    // update name
+    public static String updateName(String new_name) {
+        return name = new_name;
     }
 }
