@@ -55,7 +55,7 @@ until a champion is crowned.
 ┌────────────────────────────────┐
 │ 1. Play bracket                │
 │ 2. Create teams                │
-│ 3. Edit teams                   │
+│ 3. Edit teams                  │
 │ 4. Show teams                  │
 │ 5. Show menu                   │
 │ 6. Delete teams                │
@@ -66,15 +66,15 @@ Choose operation (5 for menu): 1
                 Quarter-Finals   >   Semi-Finals   >   Final
 
 Bracket:
-                    ■
-              ┌─────┴─────┐
+                       ■
+              ┌────────┴────────┐
         ┌─────┴─────┐     ┌─────┴─────┐
-      PAR   FRA    CAN   MOR        GER   ITA
+      PAR          CAN   MOR         GER
 
 ┌───────────────── Match 1 ─────────────────┐
-│         [1] PAR    [2] FRA                │
-└────────────────────────────────────────────┘
-Winner (1/2):
+│         [1] PAR       [2] FRA             │
+└───────────────────────────────────────────┘
+                 Winner (1/2):
 ```
 
 *(Colors, box borders, and the champion trophy screen render live in your terminal — this is a plain-text approximation.)*
