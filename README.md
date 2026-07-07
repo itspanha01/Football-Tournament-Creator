@@ -116,8 +116,8 @@ Each class has exactly one job — a pattern called **separation of concerns**:
 ```mermaid
 flowchart LR
     App["App.java<br/>(entry point)"] --> Display["Display.java<br/>(menu)"]
-    Display --> TeamRegistry["TeamRegistry.java<br/>(team CRUD)"]
-    Display --> BracketRenderer["BracketRenderer.java<br/>(tournament engine)"]
+    Display --> TeamRegistry["TeamRegistry.java<br/>"]
+    Display --> BracketRenderer["BracketRenderer.java<br/>(tournament)"]
     TeamRegistry --> ColorUtil["ColorUtil.java<br/>(ANSI colors)"]
     TeamRegistry --> ConsoleUtil["ConsoleUtil.java<br/>(console helpers)"]
     BracketRenderer --> ConsoleUtil
@@ -127,15 +127,12 @@ The bracket itself is drawn with **recursion**: `BracketRenderer` splits the tea
 half repeatedly, renders each half, then stitches the two sides together with a connector
 line and the match winner — until it bottoms out at a single team.
 
-For the full breakdown, see [`Docs/Beginner_Explanation.md`](Docs/Beginner_Explanation.md).
-
 ---
 
 ## Documentation
 
 | Doc | What's in it |
 |---|---|
-| [`Beginner_Explanation.md`](Docs/Beginner_Explanation.md) | Friendly, concept-by-concept walkthrough of every class — start here |
 | [`Display_explanation.md`](Docs/Display_explanation.md) | Detailed line-by-line reference notes |
 | [`Display_logic_flowchart.md`](Docs/Display_logic_flowchart.md) | Mermaid flowchart of the menu → team → bracket flow |
 | [`AI_Assistance_Disclosure.md`](Docs/AI_Assistance_Disclosure.md) | Transparency note on hand-written vs. AI-assisted code |
