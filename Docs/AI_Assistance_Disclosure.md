@@ -1,4 +1,4 @@
-# AI Assistance Disclosure — Display.java
+# AI Assistance Disclosure
 
 Dear Professor,
 
@@ -26,5 +26,7 @@ The following are the parts I received AI help with, since they go beyond what I
 
 Thank you for your understanding. I wanted to disclose this clearly rather than leave it ambiguous.
 
-Sincerely,
-Sopanha
+# References
+
+Anthropic. (2026). Claude (Version 3.5 Sonnet) [Large language model]. 
+          https://claude.ai
