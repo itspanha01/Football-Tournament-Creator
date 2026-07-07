@@ -1,7 +1,6 @@
 import java.util.Scanner;
 
-// Owns the in-memory team roster and all console flows for creating,
-// listing, editing, and deleting teams.
+// listing, editing, and deleting teams
 public class TeamRegistry {
     public static Scanner scan = new Scanner(System.in); // Make the scanner available for all
     public static String[] TeamNames = new String[0];
@@ -9,9 +8,9 @@ public class TeamRegistry {
 
     // Sample 16-team list for quick testing
     public static final String[] SampleTeams16 = {
-        ColorUtil.getColor("ARG", "BLUE"),   ColorUtil.getColor("BRA", "YELLOW"),
-        ColorUtil.getColor("ESP", "RED"),    ColorUtil.getColor("POR", "GREEN"),
-        ColorUtil.getColor("ENG", "RED"),    ColorUtil.getColor("FRA", "BLUE"),
+        ColorUtil.getColor("PAR", "BLUE"),   ColorUtil.getColor("FRA", "BLUE"),
+        ColorUtil.getColor("CAN", "RED"),    ColorUtil.getColor("MOR", "RED"),
+        ColorUtil.getColor("", "RED"),    ColorUtil.getColor("FRA", "BLUE"),
         ColorUtil.getColor("GER", "PURPLE"), ColorUtil.getColor("ITA", "CYAN"),
         ColorUtil.getColor("NED", "YELLOW"), ColorUtil.getColor("CRO", "RED"),
         ColorUtil.getColor("URU", "BLUE"),   ColorUtil.getColor("BEL", "YELLOW"),
@@ -105,7 +104,10 @@ public class TeamRegistry {
         // Let the user skip manual entry and load the sample teams instead
         int mode;
         do {
-            System.out.print("1. Enter teams manually, 2. Load sample teams: ");
+            System.out.print("[1] Enter teams manually\n[2] Load sample teams");
+            System.out.println();
+            System.out.print("Choose operation: ");
+
             mode = scan.nextInt();
             scan.nextLine();
 
@@ -256,13 +258,14 @@ public class TeamRegistry {
 
                 System.out.printf("%nRe-enter name for ");
 
-                String new_name = EnterName(index+1);
+                String new_name = EnterName(index);
                 new_name = ColorCheck(new_name);
 
                 TeamNames[index-1] = new_name;
 
                 System.out.println("+ Team name has been updated.");
                 DisplayTeams();
+                
             } else if (choice == 2) {
                 System.out.print("Enter index to edit: ");
                 index = scan.nextInt();
