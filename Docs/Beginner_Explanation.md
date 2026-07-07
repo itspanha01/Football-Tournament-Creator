@@ -58,7 +58,7 @@ switch (choice) {
     ...
 }
 ```
-Each `case` matches one menu number to one action. Notice `case 5` (Show menu) has **no `break;`** — it deliberately falls through into `case 6`'s code before `menu()` recurses back to redraw the screen. Everywhere else, `break;` matters: without it, Java would keep running the *next* case too, which was a real bug found and fixed earlier in this project.
+Each `case` matches one menu number to one action, and each ends with `break;` — without it, Java would keep running the *next* case too. (An earlier version of this method had `case 5` missing its `break`, which made it silently fall through into `case 6`'s `DeleteTeams()` — a real bug that got fixed during this project.)
 
 ## 4. `ConsoleUtil.java` — shared console tools
 

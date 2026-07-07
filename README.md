@@ -28,7 +28,6 @@ until a champion is crowned.
 - [Project Structure](#-project-structure)
 - [Architecture](#-architecture)
 - [Documentation](#-documentation)
-- [Known Quirks](#-known-quirks)
 - [AI Assistance Disclosure](#-ai-assistance-disclosure)
 
 ---
@@ -166,15 +165,6 @@ For the full breakdown, see [`Docs/Beginner_Explanation.md`](Docs/Beginner_Expla
 | [`Display_explanation.md`](Docs/Display_explanation.md) | Detailed line-by-line reference notes |
 | [`Display_logic_flowchart.md`](Docs/Display_logic_flowchart.md) | Mermaid flowchart of the menu → team → bracket flow |
 | [`AI_Assistance_Disclosure.md`](Docs/AI_Assistance_Disclosure.md) | Transparency note on hand-written vs. AI-assisted code |
-
----
-
-## ⚠️ Known Quirks
-
-- `Display.menu()`'s `case 5` (Show menu) is missing a `break`, so it currently falls
-  through into `case 6` (Delete teams) after redrawing the menu. Documented in
-  [`Display_logic_flowchart.md`](Docs/Display_logic_flowchart.md) rather than silently fixed,
-  since it's called out as a known learning-in-progress bug.
 
 ---
 

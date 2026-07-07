@@ -10,15 +10,17 @@ public class Display {
         // ASCII text generated online
         ConsoleUtil.clearScreen();
         String title = """
-                  ______
-                 /_  __/___  __  ___________  ____ _____ ___  ___  ____  / /_
-                  / / / __ \\/ / / / ___/ __ \\/ __ `/ __ `__ \\/ _ \\/ __ \\/ __/
-                 / / / /_/ / /_/ / /  / / / / /_/ / / / / / /  __/ / / / /_ \s
-                /_/  \\____/\\__,_/_/  /_/_/_/\\__,_/_/ /_/ /_/\\___/_/ /_/\\__/ \s
-                  _____________  ____ _/ /_____  _____                      \s
-                 / ___/ ___/ _ \\/ __ `/ __/ __ \\/ ___/                      \s
-                / /__/ /  /  __/ /_/ / /_/ /_/ / /                          \s
-                \\___/_/   \\___/\\__,_/\\__/\\____/_/                           \s
+                
+                ▄▄▄▄▄▄▄▄▄                                                      \s
+                ▀▀▀███▀▀▀                                                  ██  \s
+                   ███ ▄███▄ ██ ██ ████▄ ████▄  ▀▀█▄ ███▄███▄ ▄█▀█▄ ████▄ ▀██▀▀\s
+                   ███ ██ ██ ██ ██ ██ ▀▀ ██ ██ ▄█▀██ ██ ██ ██ ██▄█▀ ██ ██  ██  \s
+                   ███ ▀███▀ ▀██▀█ ██    ██ ██ ▀█▄██ ██ ██ ██ ▀█▄▄▄ ██ ██  ██               ■
+                 ▄▄▄▄▄▄▄                                                             ┌──────┴──────┐    \s
+                ███▀▀▀▀▀                    ██                                       ■             ■     \s
+                ███      ████▄ ▄█▀█▄  ▀▀█▄ ▀██▀▀ ▄███▄ ████▄                      ┌──┴───┐      ┌──┴───┐  \s
+                ███      ██ ▀▀ ██▄█▀ ▄█▀██  ██   ██ ██ ██ ▀▀                      ■      ■      ■      ■  \s
+                ▀███████ ██    ▀█▄▄▄ ▀█▄██  ██   ▀███▀ ██                      \s
                 """;
 
         int consoleWidth = ConsoleUtil.getConsoleWidth();
@@ -52,8 +54,9 @@ public class Display {
                 case 2 : TeamRegistry.CreateTeams(); break;
                 case 3 : TeamRegistry.EditTeams(); break;
                 case 4 : TeamRegistry.DisplayTeams(); break;
-                case 5 : menu();
+                case 5 : menu(); break;
                 case 6 : TeamRegistry.DeleteTeams(); break;
+                case 7 : return;
             }
         } while (choice != 7);
     }

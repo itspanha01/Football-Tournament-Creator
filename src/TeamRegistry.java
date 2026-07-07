@@ -10,12 +10,12 @@ public class TeamRegistry {
     public static final String[] SampleTeams16 = {
         ColorUtil.getColor("PAR", "BLUE"),   ColorUtil.getColor("FRA", "BLUE"),
         ColorUtil.getColor("CAN", "RED"),    ColorUtil.getColor("MOR", "RED"),
-        ColorUtil.getColor("", "RED"),    ColorUtil.getColor("FRA", "BLUE"),
-        ColorUtil.getColor("GER", "PURPLE"), ColorUtil.getColor("ITA", "CYAN"),
-        ColorUtil.getColor("NED", "YELLOW"), ColorUtil.getColor("CRO", "RED"),
-        ColorUtil.getColor("URU", "BLUE"),   ColorUtil.getColor("BEL", "YELLOW"),
-        ColorUtil.getColor("JPN", "RED"),    ColorUtil.getColor("KOR", "BLUE"),
-        ColorUtil.getColor("MEX", "GREEN"),  ColorUtil.getColor("USA", "PURPLE")
+        ColorUtil.getColor("POR", "RED"),    ColorUtil.getColor("ESP", "RED"),
+        ColorUtil.getColor("USA", "BLUE"), ColorUtil.getColor("BEL", "YELLOW"),
+        ColorUtil.getColor("BRA", "YELLOW"), ColorUtil.getColor("NOR", "RED"),
+        ColorUtil.getColor("MEX", "GREEN"),   ColorUtil.getColor("ENG", "DEFAULT"),
+        ColorUtil.getColor("ARG", "BLUE"),    ColorUtil.getColor("EGY", "RED"),
+        ColorUtil.getColor("SUI", "RED"),  ColorUtil.getColor("COL", "YELLOW")
     };
 
     // Loads the sample 16-team list into TeamNames
@@ -104,9 +104,10 @@ public class TeamRegistry {
         // Let the user skip manual entry and load the sample teams instead
         int mode;
         do {
+            System.out.println();
             System.out.print("[1] Enter teams manually\n[2] Load sample teams");
             System.out.println();
-            System.out.print("Choose operation: ");
+            System.out.print("\nChoose operation: ");
 
             mode = scan.nextInt();
             scan.nextLine();
