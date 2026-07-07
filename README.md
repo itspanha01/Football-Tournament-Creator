@@ -1,75 +1,192 @@
-# Display.java — Program Logic Flowchart
+<div align="center">
 
-```mermaid
-flowchart TD
-    Start([Program Start]) --> Menu[menu]
-    Menu --> Choice{Choose operation}
+# 🏆 Football Tournament Creator
 
-    Choice -->|1| PlayBracket[PlayBracket]
-    Choice -->|2| CreateTeams[CreateTeams]
-    Choice -->|3| EditTeams[EditTeams]
-    Choice -->|4| DisplayTeams[DisplayTeams]
-    Choice -->|5| Menu
-    Choice -->|6| DeleteTeams[DeleteTeams]
-    Choice -->|7| Exit([Exit])
+**A colorful, ASCII-art single-elimination bracket simulator — right in your terminal.**
 
-    %% ---- Create Teams ----
-    CreateTeams --> TeamsExist{Teams already exist?}
-    TeamsExist -->|Yes| ConfirmOverwrite{Overwrite? Y/N}
-    ConfirmOverwrite -->|N| Menu
-    ConfirmOverwrite -->|Y| ModeChoice
-    TeamsExist -->|No| ModeChoice{Manual or Sample?}
+Create teams, pick winners round by round, and watch a live bracket tree redraw itself
+until a champion is crowned.
 
-    ModeChoice -->|Sample| LoadSample[LoadSampleTeams] --> Menu
-    ModeChoice -->|Manual| PickCount[Select team count: 2 / 4 / 8 / 16]
-    PickCount --> AddTeams[AddTeams loop]
-    AddTeams --> EnterName[EnterName - validate length/duplicates]
-    EnterName --> ColorCheck1[ColorCheck - assign color]
-    ColorCheck1 --> StoreTeam[Store in TeamNames array]
-    StoreTeam -->|more slots| AddTeams
-    StoreTeam -->|done| Menu
+[![Java](https://img.shields.io/badge/Java-17%2B-orange?logo=openjdk&logoColor=white)](https://www.oracle.com/java/technologies/downloads/)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-blue)](#-getting-started)
+[![Dependencies](https://img.shields.io/badge/Dependencies-None-brightgreen)](#-getting-started)
+[![Status](https://img.shields.io/badge/Status-Active-success)](#)
+[![Type](https://img.shields.io/badge/Type-Academic%20Project-9cf)](#-ai-assistance-disclosure)
 
-    %% ---- Edit Teams ----
-    EditTeams --> EditChoice{Edit names / colors / exit}
-    EditChoice -->|1 Names| EditName[EnterName + ColorCheck -> update index] --> EditTeams
-    EditChoice -->|2 Colors| EditColor[ColorCheck -> update index] --> EditTeams
-    EditChoice -->|3 Exit| Menu
+<sub>Built for the AUPP Java Programming course · Summer 2026</sub>
 
-    %% ---- Delete Teams ----
-    DeleteTeams --> DeleteEmptyCheck{TeamNames empty?}
-    DeleteEmptyCheck -->|Yes| Menu
-    DeleteEmptyCheck -->|No| ConfirmDelete{Confirm delete? Y/N}
-    ConfirmDelete -->|Y| ClearTeams[Reset TeamNames to empty] --> Menu
-    ConfirmDelete -->|N| Menu
+</div>
 
-    %% ---- Display Teams ----
-    DisplayTeams --> Menu
+---
 
-    %% ---- Play Bracket ----
-    PlayBracket --> ValidCheck{n >= 2 AND power of 2?}
-    ValidCheck -->|No| Menu
-    ValidCheck -->|Yes| InitState[rounds = leaves, eliminated = empty set]
-    InitState --> PrintBracket0[printResultBracket - empty results]
-    PrintBracket0 --> RoundLoop{current round size > 1?}
+## 📖 Table of Contents
 
-    RoundLoop -->|Yes| MatchLoop[For each match pair in round]
-    MatchLoop --> ShowMatch[printMatchBox]
-    ShowMatch --> PromptWinner[Prompt Winner 1/2]
-    PromptWinner --> ValidInput{Valid input? 1 or 2}
-    ValidInput -->|No| PromptWinner
-    ValidInput -->|Yes| RecordResult[Record winner in next-round array;\nadd loser to eliminated set]
-    RecordResult --> MoreMatches{More matches this round?}
-    MoreMatches -->|Yes| MatchLoop
-    MoreMatches -->|No| AppendRound[rounds.add next round results]
-    AppendRound --> PrintBracketN[printResultBracket - updated results]
-    PrintBracketN --> RoundLoop
+- [Features](#-features)
+- [Demo](#-demo)
+- [Getting Started](#-getting-started)
+- [How to Play](#-how-to-play)
+- [Project Structure](#-project-structure)
+- [Architecture](#-architecture)
+- [Documentation](#-documentation)
+- [Known Quirks](#-known-quirks)
+- [AI Assistance Disclosure](#-ai-assistance-disclosure)
 
-    RoundLoop -->|No: 1 team left| Champion[printChampionBox\nchampion + runner-up + trophy art]
-    Champion --> Menu
+---
+
+## ✨ Features
+
+| | |
+|---|---|
+| 🎨 **Colored teams** | Assign each team an ANSI color (red, yellow, green, blue, purple) so they're easy to track through the bracket |
+| 🌳 **Live ASCII bracket tree** | The full tournament tree redraws itself after every round, with connectors and winners filled in |
+| ⚡ **Any power-of-two size** | Run a bracket of 2, 4, 8, or 16 teams |
+| 🧪 **Sample teams** | Load a ready-made 16-team list instantly to demo the app without typing |
+| ✏️ **Full team management** | Create, edit (name or color), and delete your team list at any time |
+| 🚫 **Elimination tracking** | Knocked-out teams are greyed out and struck through in the bracket view |
+| 🏆 **Champion banner** | A trophy screen with the winner, runner-up, and match stats caps off every run |
+| 🖥️ **Responsive layout** | Detects your real terminal width so menus, boxes, and the bracket stay centered |
+| 📦 **Zero dependencies** | Pure Java standard library — no build tool or external package required |
+
+---
+
+## 🎬 Demo
+
+```
+┌────────────────────────────────┐
+│ 1. Play bracket                │
+│ 2. Create teams                │
+│ 3. Edit teams                   │
+│ 4. Show teams                  │
+│ 5. Show menu                   │
+│ 6. Delete teams                │
+│ 7. Exit                        │
+└────────────────────────────────┘
+Choose operation (5 for menu): 1
+
+                Quarter-Finals   >   Semi-Finals   >   Final
+
+Bracket:
+                    ■
+              ┌─────┴─────┐
+        ┌─────┴─────┐     ┌─────┴─────┐
+      PAR   FRA    CAN   MOR        GER   ITA
+
+┌───────────────── Match 1 ─────────────────┐
+│         [1] PAR    [2] FRA                │
+└────────────────────────────────────────────┘
+Winner (1/2):
 ```
 
-## Notes on the diagram
+*(Colors, box borders, and the champion trophy screen render live in your terminal — this is a plain-text approximation.)*
 
-- Every branch loops back to `Menu`, matching the actual code: each top-level action (`PlayBracket`, `CreateTeams`, `EditTeams`, `DisplayTeams`, `DeleteTeams`) returns control to the `do...while` loop in `menu()`.
-- `buildResultBracket()`'s internal recursion (splitting the team range in half, rendering connectors, merging left/right subtrees) is collapsed into the single `printResultBracket` boxes above — it's called after every round to redraw the whole tree with newly-known results.
-- The **bug noted in the disclosure/explanation docs** — `menu()`'s case `5` falling through into case `6` (`DeleteTeams`) because of a missing `break` — is not shown here, since this diagram represents the *intended* logic rather than that specific fall-through defect.
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- **JDK 17+** (uses text blocks and `switch` expressions)
+- A terminal that supports ANSI escape codes (Windows Terminal, PowerShell, macOS Terminal, most Linux shells)
+
+### Clone & Run
+
+```bash
+git clone https://github.com/itspanha01/Football-Tournament-Creator.git
+cd Football-Tournament-Creator/src
+
+# Compile
+javac App.java Display.java TeamRegistry.java BracketRenderer.java ConsoleUtil.java ColorUtil.java
+
+# Run
+java App
+```
+
+Or just open the project in **IntelliJ IDEA** and run `App.java` directly.
+
+---
+
+## 🕹️ How to Play
+
+1. **Create teams** (option `2`) — enter 2, 4, 8, or 16 teams manually, or load the sample list.
+2. **Assign a color** to each team as you go.
+3. **Play the bracket** (option `1`) — pick a winner for every match; the bracket redraws after each round.
+4. Watch the tree narrow down — Quarter-Finals → Semi-Finals → Final.
+5. The last team standing gets the **champion trophy screen** 🏆.
+6. Use **Edit** / **Delete** (options `3`, `6`) anytime to tweak your team list between runs.
+
+---
+
+## 📂 Project Structure
+
+```
+Football Tournament Creator/
+├── src/
+│   ├── App.java              # Entry point — starts the program
+│   ├── Display.java           # Main menu: draws it, routes user choices
+│   ├── TeamRegistry.java       # Team CRUD: create, edit, delete, display
+│   ├── BracketRenderer.java   # Tournament engine: matches + ASCII bracket tree
+│   ├── ConsoleUtil.java       # Shared console helpers (width, padding, centering)
+│   └── ColorUtil.java         # ANSI color wrapping for team names
+├── Docs/
+│   ├── Beginner_Explanation.md      # Plain-language walkthrough of every file
+│   ├── Display_explanation.md      # Line-by-line reference notes
+│   ├── Display_logic_flowchart.md  # Mermaid flowchart of the full program flow
+│   └── AI_Assistance_Disclosure.md # What was hand-written vs. AI-assisted
+└── README.md
+```
+
+---
+
+## 🏗️ Architecture
+
+Each class has exactly one job — a pattern called **separation of concerns**:
+
+```mermaid
+flowchart LR
+    App["App.java<br/>(entry point)"] --> Display["Display.java<br/>(menu)"]
+    Display --> TeamRegistry["TeamRegistry.java<br/>(team CRUD)"]
+    Display --> BracketRenderer["BracketRenderer.java<br/>(tournament engine)"]
+    TeamRegistry --> ColorUtil["ColorUtil.java<br/>(ANSI colors)"]
+    TeamRegistry --> ConsoleUtil["ConsoleUtil.java<br/>(console helpers)"]
+    BracketRenderer --> ConsoleUtil
+```
+
+The bracket itself is drawn with **recursion**: `BracketRenderer` splits the team list in
+half repeatedly, renders each half, then stitches the two sides together with a connector
+line and the match winner — until it bottoms out at a single team.
+
+For the full breakdown, see [`Docs/Beginner_Explanation.md`](Docs/Beginner_Explanation.md).
+
+---
+
+## 📚 Documentation
+
+| Doc | What's in it |
+|---|---|
+| [`Beginner_Explanation.md`](Docs/Beginner_Explanation.md) | Friendly, concept-by-concept walkthrough of every class — start here |
+| [`Display_explanation.md`](Docs/Display_explanation.md) | Detailed line-by-line reference notes |
+| [`Display_logic_flowchart.md`](Docs/Display_logic_flowchart.md) | Mermaid flowchart of the menu → team → bracket flow |
+| [`AI_Assistance_Disclosure.md`](Docs/AI_Assistance_Disclosure.md) | Transparency note on hand-written vs. AI-assisted code |
+
+---
+
+## ⚠️ Known Quirks
+
+- `Display.menu()`'s `case 5` (Show menu) is missing a `break`, so it currently falls
+  through into `case 6` (Delete teams) after redrawing the menu. Documented in
+  [`Display_logic_flowchart.md`](Docs/Display_logic_flowchart.md) rather than silently fixed,
+  since it's called out as a known learning-in-progress bug.
+
+---
+
+## 🤖 AI Assistance Disclosure
+
+Parts of this project (notably the recursive bracket renderer and terminal-width detection)
+were built with AI assistance. See
+[`Docs/AI_Assistance_Disclosure.md`](Docs/AI_Assistance_Disclosure.md) for the full,
+line-by-line breakdown of what was hand-written versus AI-assisted.
+
+---
+
+<div align="center">
+<sub>Made by Sopanha · AUPP Java Programming, Summer 2026</sub>
+</div>
