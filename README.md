@@ -7,9 +7,8 @@
 Create teams, pick winners round by round, and watch a live bracket tree redraw itself
 until a champion is crowned.
 
-[![Java](https://img.shields.io/badge/Java-17%2B-orange?logo=openjdk&logoColor=white)](https://www.oracle.com/java/technologies/downloads/)
+[![Java](https://img.shields.io/badge/Java-21%2B-orange?logo=openjdk&logoColor=white)](https://www.oracle.com/java/technologies/downloads/)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-blue)](#-getting-started)
-[![Dependencies](https://img.shields.io/badge/Dependencies-None-brightgreen)](#-getting-started)
 [![Status](https://img.shields.io/badge/Status-Active-success)](#)
 [![Type](https://img.shields.io/badge/Type-Academic%20Project-9cf)](#-ai-assistance-disclosure)
 
@@ -57,7 +56,7 @@ until a champion is crowned.
 ## Getting Started
 
 ### Prerequisites
-- **JDK 17+** (uses text blocks and `switch` expressions)
+- **JDK 21**
 - A terminal that supports ANSI escape codes (Windows Terminal, PowerShell, macOS Terminal, most Linux shells)
 
 ### Clone & Run
