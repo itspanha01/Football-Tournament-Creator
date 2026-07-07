@@ -252,7 +252,7 @@ public class TeamRegistry {
 
                 scan.nextLine();
 
-                if (index < 0 || index > TeamNames.length) {
+                if (index <= 0 || index > TeamNames.length) {
                     System.out.println("Invalid index.");
                     continue;
                 }
