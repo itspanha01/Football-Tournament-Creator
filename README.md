@@ -2,7 +2,7 @@
 
 # 🏆 Football Tournament Creator
 
-**A colorful, ASCII-art single-elimination bracket simulator — right in your terminal.**
+**A colorful, ASCII-art single-elimination bracket simulator right in your terminal.**
 
 Create teams, pick winners round by round, and watch a live bracket tree redraw itself
 until a champion is crowned.
