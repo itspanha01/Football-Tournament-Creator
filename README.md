@@ -9,7 +9,6 @@ until a champion is crowned.
 
 [![Java](https://img.shields.io/badge/Java-17%2B-orange?logo=openjdk&logoColor=white)](https://www.oracle.com/java/technologies/downloads/)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-blue)](#-getting-started)
-[![Dependencies](https://img.shields.io/badge/Dependencies-None-brightgreen)](#-getting-started)
 [![Status](https://img.shields.io/badge/Status-Active-success)](#)
 [![Type](https://img.shields.io/badge/Type-Academic%20Project-9cf)](#-ai-assistance-disclosure)
 
