@@ -92,8 +92,9 @@ This recursive divide-and-conquer approach builds the classic tournament-tree AS
 - Computes `boxPad` to center the menu box (fixed `MAX_WIDTH`), then draws a box using `┌─┐│└┘` characters with 7 menu options (`left(...)` pads each line's text to fill the box width).
 - **Input loop** (`do...while`):
   - Prompts for a choice, reads an int.
-  - `switch`: 1→`PlayBracket()`, 2→`CreateTeams()`, 3→`EditTeams()`, 4→`DisplayTeams()`, 5→ calls `menu()` recursively (redraw the menu) **but has no `break`, so it falls through into case 6** (`DeleteTeams()`) immediately afterward — likely a bug, since choosing "5. Show menu" also runs `DeleteTeams()` right after redrawing.
-  - Loop repeats until `choice == 7` (Exit), which isn't handled in the switch, so it simply falls out of the loop and the method returns (ending the program, since presumably `App.java`'s `main` calls this once).
+  - `switch`: 1→`PlayBracket()`, 2→`CreateTeams()`, 3→`EditTeams()`, 4→`DisplayTeams()`, 5→`printMenu()` (redraws the title/box only, without starting a new input loop), 6→`DeleteTeams()`, 7→`return` (exits `menu()` immediately). Every case ends with `break`/`return`, so there's no fall-through between them.
+  - (An earlier version had `case 5` calling `menu()` recursively with no `break`, which both stacked up nested input loops *and* fell through into `DeleteTeams()`. That's been fixed: the title/box drawing now lives in a separate `printMenu()` helper that `case 5` calls directly, so "Show menu" just redraws and loops instead of recursing.)
+  - Loop repeats until `choice == 7` (Exit) or the `switch` itself returns out of the method.
 
 ## `PlayBracket()` (280–366) — runs the actual tournament
 - Prints how many teams there currently are.
