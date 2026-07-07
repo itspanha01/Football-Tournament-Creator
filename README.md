@@ -151,6 +151,14 @@ line-by-line breakdown of what was hand-written versus AI-assisted.
 
 ---
 
+## Contributors
+
+<a href="https://github.com/itspanha01/Football-Tournament-Creator/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=itspanha01/Football-Tournament-Creator" />
+</a>
+
+---
+
 <div align="center">
 <sub>Made by Sopanha · AUPP Java Programming, Summer 2026</sub>
 </div>
