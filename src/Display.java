@@ -7,10 +7,30 @@ public class Display {
     public static void menu(){
         int choice;
 
+        printMenu();
+
+        do {
+            System.out.print("Choose operation (5 for menu): ");
+            choice = TeamRegistry.scan.nextInt();
+            switch (choice) {
+                case 1 : BracketRenderer.PlayBracket(); break;
+                case 2 : TeamRegistry.CreateTeams(); break;
+                case 3 : TeamRegistry.EditTeams(); break;
+                case 4 : TeamRegistry.DisplayTeams(); break;
+                case 5 : printMenu(); break;
+                case 6 : TeamRegistry.DeleteTeams(); break;
+                case 7 : return;
+            }
+        } while (choice != 7);
+    }
+
+    // Redraws the title art and menu box without starting a new input loop
+    // (kept separate from menu() so "Show menu" can't recurse and stack up nested loops).
+    private static void printMenu() {
         // ASCII text generated online
         ConsoleUtil.clearScreen();
         String title = """
-                
+
                 ▄▄▄▄▄▄▄▄▄                                                      \s
                 ▀▀▀███▀▀▀                                                  ██  \s
                    ███ ▄███▄ ██ ██ ████▄ ████▄  ▀▀█▄ ███▄███▄ ▄█▀█▄ ████▄ ▀██▀▀\s
@@ -45,19 +65,5 @@ public class Display {
         System.out.println(boxPad + "│" + ConsoleUtil.left(" 6. Delete teams", MAX_WIDTH-2) + "│");
         System.out.println(boxPad + "│" + ConsoleUtil.left(" 7. Exit", MAX_WIDTH-2) + "│");
         System.out.println(boxPad + "└" + "─".repeat(MAX_WIDTH-2) + "┘");
-
-        do {
-            System.out.print("Choose operation (5 for menu): ");
-            choice = TeamRegistry.scan.nextInt();
-            switch (choice) {
-                case 1 : BracketRenderer.PlayBracket(); break;
-                case 2 : TeamRegistry.CreateTeams(); break;
-                case 3 : TeamRegistry.EditTeams(); break;
-                case 4 : TeamRegistry.DisplayTeams(); break;
-                case 5 : menu(); break;
-                case 6 : TeamRegistry.DeleteTeams(); break;
-                case 7 : return;
-            }
-        } while (choice != 7);
     }
 }

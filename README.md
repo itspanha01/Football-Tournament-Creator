@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🏆 Football Tournament Creator
+# Football Tournament Creator
 
 **A colorful, ASCII-art single-elimination bracket simulator right in your terminal.**
 
@@ -17,9 +17,10 @@ until a champion is crowned.
 
 </div>
 
+![](image.png)
 ---
 
-## 📖 Table of Contents
+## Table of Contents
 
 - [Features](#-features)
 - [Demo](#-demo)
@@ -32,7 +33,7 @@ until a champion is crowned.
 
 ---
 
-## ✨ Features
+## Features
 
 | | |
 |---|---|
@@ -48,39 +49,12 @@ until a champion is crowned.
 
 ---
 
-## 🎬 Demo
+# App Preview
 
-```
-┌────────────────────────────────┐
-│ 1. Play bracket                │
-│ 2. Create teams                │
-│ 3. Edit teams                  │
-│ 4. Show teams                  │
-│ 5. Show menu                   │
-│ 6. Delete teams                │
-│ 7. Exit                        │
-└────────────────────────────────┘
-Choose operation (5 for menu): 1
-
-                Quarter-Finals   >   Semi-Finals   >   Final
-
-Bracket:
-                       ■
-              ┌────────┴────────┐
-        ┌─────┴─────┐     ┌─────┴─────┐
-      PAR          CAN   MOR         GER
-
-┌───────────────── Match 1 ─────────────────┐
-│         [1] PAR       [2] FRA             │
-└───────────────────────────────────────────┘
-                 Winner (1/2):
-```
-
-*(Colors, box borders, and the champion trophy screen render live in your terminal — this is a plain-text approximation.)*
-
+![alt text](image-2.png)
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - **JDK 17+** (uses text blocks and `switch` expressions)
@@ -103,7 +77,7 @@ Or just open the project in **IntelliJ IDEA** and run `App.java` directly.
 
 ---
 
-## 🕹️ How to Play
+## How to Play
 
 1. **Create teams** (option `2`) — enter 2, 4, 8, or 16 teams manually, or load the sample list.
 2. **Assign a color** to each team as you go.
@@ -114,7 +88,7 @@ Or just open the project in **IntelliJ IDEA** and run `App.java` directly.
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 Football Tournament Creator/
@@ -135,7 +109,7 @@ Football Tournament Creator/
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 Each class has exactly one job — a pattern called **separation of concerns**:
 
@@ -157,7 +131,7 @@ For the full breakdown, see [`Docs/Beginner_Explanation.md`](Docs/Beginner_Expla
 
 ---
 
-## 📚 Documentation
+## Documentation
 
 | Doc | What's in it |
 |---|---|
@@ -168,7 +142,7 @@ For the full breakdown, see [`Docs/Beginner_Explanation.md`](Docs/Beginner_Expla
 
 ---
 
-## 🤖 AI Assistance Disclosure
+## AI Assistance Disclosure
 
 Parts of this project (notably the recursive bracket renderer and terminal-width detection)
 were built with AI assistance. See
