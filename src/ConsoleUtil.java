@@ -55,12 +55,6 @@ public class ConsoleUtil {
         return text.replaceAll("\\[[;\\d]*m", "");
     }
 
-    // Greys out and dims an eliminated team label, replacing whatever color it already had.
-    public static String strikethrough(String text) {
-        String plain = stripColor(text);
-        return "[2m[90m" + plain + "[0m";
-    }
-
     // Centering the text
     public static String left(String word, int max) {
         // [ AI ] this will replace the invisible ANSI character with none to fix the padding issue

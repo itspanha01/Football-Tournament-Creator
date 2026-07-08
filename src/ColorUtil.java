@@ -7,7 +7,7 @@ public class ColorUtil {
         String RED = "[31m";
         String GREEN = "[32m";
         String YELLOW = "[33m";
-        String BLUE = "[94m"; // bright blue - the standard blue (34m) is too dark to read
+        String BLUE = "[94m"; // bright blue
         String PURPLE = "[35m";
         String CYAN = "[36m";
         String RESET = "[0m";
@@ -15,6 +15,7 @@ public class ColorUtil {
         //Removes initial colors
         text = text.replaceAll("\\[[;\\d]*m", "");
 
+        // adds color
         switch (color) {
             case "RED" -> text = RED + text + RESET;
             case "GREEN" -> text = GREEN + text + RESET;

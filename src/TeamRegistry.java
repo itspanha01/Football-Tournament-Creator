@@ -71,7 +71,6 @@ public class TeamRegistry {
                 String name = String.format(" [%d] %s     [%d] %s", i+1, TeamNames[i], i+j, TeamNames[i+j-1]);
                 System.out.println("│" + ConsoleUtil.left(name, MAX_WIDTH-2) + "│");
             }
-            // "[7m" and "[0m" to highlight
             System.out.println("└" + "─".repeat(MAX_WIDTH-2) + "┘");
         }
         else {
@@ -109,6 +108,13 @@ public class TeamRegistry {
             System.out.println();
             System.out.print("\nChoose operation: ");
 
+            if (!scan.hasNextInt()) {
+                System.out.println("Select the given range!");
+                scan.nextLine(); // throw away whatever bad input was typed
+                mode = -1;
+                continue;
+            }
+
             mode = scan.nextInt();
             scan.nextLine();
 
@@ -126,6 +132,14 @@ public class TeamRegistry {
         do {
             ErrorCheck = false;
             System.out.print("Select the number of teams (2, 4, 8, 16): ");
+
+            if (!scan.hasNextInt()) {
+                System.out.println("Select the given range!");
+                scan.nextLine(); // throw away whatever bad input was typed
+                ErrorCheck = true;
+                continue;
+            }
+
             int TeamCount = scan.nextInt();
 
             // clears buffer
@@ -224,6 +238,7 @@ public class TeamRegistry {
     }
 
     public static void EditTeams() {
+        scan.nextLine(); // consume the leftovers from the menu input
         int choice;
         int index;
 
@@ -244,10 +259,25 @@ public class TeamRegistry {
             System.out.println("└" + "─".repeat(MAX_WIDTH - 2) + "┘");
 
             System.out.print("Choose edit operation: ");
+
+            if (!scan.hasNextInt()) {
+                System.out.println("Invalid operation.");
+                scan.nextLine(); // throw away whatever bad input was typed
+                continue;
+            }
+
             choice = scan.nextInt();
+            scan.nextLine(); // clear the leftover newline so it doesn't confuse the next prompt
 
             if (choice == 1) {
                 System.out.print("Enter index to edit: ");
+
+                if (!scan.hasNextInt()) {
+                    System.out.println("Invalid index.");
+                    scan.nextLine(); // throw away whatever bad input was typed
+                    continue;
+                }
+
                 index = scan.nextInt();
 
                 scan.nextLine();
@@ -269,6 +299,13 @@ public class TeamRegistry {
                 
             } else if (choice == 2) {
                 System.out.print("Enter index to edit: ");
+
+                if (!scan.hasNextInt()) {
+                    System.out.println("Invalid index.");
+                    scan.nextLine(); // throw away whatever bad input was typed
+                    continue;
+                }
+
                 index = scan.nextInt();
                 index -= 1;
 

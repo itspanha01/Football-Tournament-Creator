@@ -1,6 +1,3 @@
-// Entry-point screen: draws the main menu and routes to the other classes
-// (TeamRegistry for team CRUD, BracketRenderer for the bracket, ConsoleUtil/ColorUtil
-// for shared console helpers).
 public class Display {
     static int MAX_WIDTH = 32;
 
@@ -11,9 +8,18 @@ public class Display {
 
         do {
             System.out.print("Choose operation (5 for menu): ");
+
+            if (!TeamRegistry.scan.hasNextInt()) {
+                System.out.println("Please enter a number from the menu.");
+                TeamRegistry.scan.nextLine(); // throw away whatever bad input was typed
+                choice = -1;
+                continue;
+            }
+
             choice = TeamRegistry.scan.nextInt();
+
             switch (choice) {
-                case 1 : BracketRenderer.PlayBracket(); break;
+                case 1 : Bracket.PlayBracket(); break;
                 case 2 : TeamRegistry.CreateTeams(); break;
                 case 3 : TeamRegistry.EditTeams(); break;
                 case 4 : TeamRegistry.DisplayTeams(); break;
@@ -24,8 +30,6 @@ public class Display {
         } while (choice != 7);
     }
 
-    // Redraws the title art and menu box without starting a new input loop
-    // (kept separate from menu() so "Show menu" can't recurse and stack up nested loops).
     private static void printMenu() {
         // ASCII text generated online
         ConsoleUtil.clearScreen();
