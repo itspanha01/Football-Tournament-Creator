@@ -1,5 +1,6 @@
 public class Bracket {
-    // One array per round, holding whoever won that round's matche and filled in by AskWinners() before anything gets drawn.
+    // One array per round, holding whoever won that round's match and filled in by AskWinners() before anything gets drawn.
+
     static String[] round16Winners; // the 8 teams that win their Round of 16 match
     static String[] quarterWinners; // the 4 teams that win their Quarter-Final
     static String[] semiWinners;    // the 2 teams that make the Final
@@ -82,8 +83,6 @@ public class Bracket {
             case 8 -> QuarterFinals();
             case 16 -> RoundOf16();
         }
-        // Whichever round just ran, make sure its last row ends its own
-        // line - otherwise the menu's next prompt lands glued onto it.
         System.out.println();
     }
     public static void Finals() {
@@ -137,7 +136,7 @@ public class Bracket {
             }
     }
     public static void RoundOf16() {
-        QuarterFinals(); // QuarterFinals() already cascades up through SemiFinals() and Finals()
+        QuarterFinals();
         // Prints the second row
         System.out.println();
         System.out.print(" ".repeat(7));
