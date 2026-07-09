@@ -190,7 +190,7 @@ This recursive divide-and-conquer approach builds the classic tournament-tree AS
 
 ## `EditTeams()` (697–764)
 - Displays current teams.
-- Loop: if list is empty, message and break.
+- Loop: if list is empty, message and breaks.
 - Draws a small sub-menu: 1. Edit names, 2. Edit colors, 3. Exit.
 - **Choice 1** (edit name): asks for an index, consumes buffer, validates range is `0..TeamNames.length` (note: this allows `index == 0` — off-by-one leniency, and later uses `index-1` to store, so entering `0` would underflow to `-1` and throw `ArrayIndexOutOfBoundsException` — a latent bug), prompts for a new validated name via `EnterName`/`ColorCheck`, stores at `TeamNames[index-1]`, confirms, redisplays.
 - **Choice 2** (edit color): asks for index, decrements immediately to 0-based, validates `0 <= index < length` (this one is correctly bounded), re-colors that team via `ColorCheck`, confirms, redisplays.

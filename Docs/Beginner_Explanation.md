@@ -2,7 +2,7 @@
 
 This document explains the Football Tournament Creator in plain language, assuming you're still learning Java. It walks through what each piece does and why, using simple analogies where it helps.
 
-## 1. The big picture
+## 1. The Big picture
 
 This is a **console app** (it runs in a terminal window, no graphics) that lets you:
 1. Type in a list of football teams (like "ARG", "BRA", "ESP"...) and give each one a color.
